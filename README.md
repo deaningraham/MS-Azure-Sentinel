@@ -1,4 +1,4 @@
-# PROJECTNAME
+# Microsoft Azure Sentinel Lab
 
 ## Objective
 [Brief Objective - Remove this afterwards]
