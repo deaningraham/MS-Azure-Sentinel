@@ -128,8 +128,3 @@ You should now be on this page:
 
 
 
-* From here, you can read up on the Microsoft Sentinel Training Lab Solution.
-* Once you have done that, click the ***"Create"*** button.
-
-
-
