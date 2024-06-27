@@ -1,0 +1,1 @@
+In this module we want to install and enable Data Connectors in Microsoft Sentinel to bring in alerts and/or telemetry from different sources. However, before we can do that, we must set the appropriate permissions in our Azure work spaces
