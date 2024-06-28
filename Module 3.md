@@ -86,7 +86,8 @@ You should now see this. Double check that you have removed the old Azure Activi
 
 Notice the tag IN USE, as the Fusion rule is enabled by default.--->
 
-## LAB EXERCISE: Create a Microsoft Sentinel Custom Analytics Rule [From Microsofts Training Lab]
+## LAB EXERCISE: Create a Microsoft Sentinel Custom Analytics Rule
+Lab scenario comes from Sentinal Training Guide, but screenshots and work is my own.
 
 #### Scenario
 A security consultant notifies you about some intelligence they came across, around malicious inbox rule manipulation, based on some threads they read online (like https://www.reddit.com/r/sysadmin/comments/7kyp0a/recent_phishing_attempts_my_experience_and_what/). The attack vector they've described seems to be:
@@ -114,24 +115,30 @@ In this exercise you will use the Microsoft Sentinel analytics rule wizard to cr
     ```
 
    - As you can see, a **New-InboxRule** operation is indeed captured in your logs:
+     
+![Step 57-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/3b75771c-956f-40e2-8b8b-72fff7883531)
 
-	![Office Activity (custom) query output](../Images/m3-distinct_Events.gif?raw=true)
+3. Click into **Analytics**, click the **Create** button in the action bar at the top, and pick **Scheduled query rule**
 
-3. Click into **Analytics**, click the **Create** button in the action bar at the top, and pick **Scheduled query rule**.
+![Step 58-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/028d98de-5ab9-4e0f-b887-7e924e3d28a4)
 
-4. For the **Name**, type *Malicious Inbox Rule - student* 
+5. For the **Name**, type *Malicious Inbox Rule - student* 
    
    Tip: You can use your name if you're sharing a workspace.
    
-5. In the rule **Description**, state the intent of the rule: *This rule detects creation of inbox rules which attempt to Delete or Junk warnings about compromised emails sent to user mailboxes*.
+6. In the rule **Description**, state the intent of the rule: *This rule detects creation of inbox rules which attempt to Delete or Junk warnings about compromised emails sent to user mailboxes*.
    
-6. Under **Tactics** tick *Persistence* and *Defense Evasion*.
+7. Under **Tactics** tick *Persistence* and *Defense Evasion*.
    
-7.  For rule **severity** select *Medium*.
+![Step 60-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/a83cb5f5-46e8-43d5-a753-1b70dbc3043b)
    
-8.  Press **Next: SET rule logic**.
+9.  For rule **severity** select *Medium*.
+
+![Step 59-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/18c8f1b0-804e-491f-958c-67106ea03155)
+
+11.  Press **Next: SET rule logic**.
     
-9.  In the **Rule logic** page, review and copy the query below:
+12.  In the **Rule logic** page, review and copy the query below:
 
 	```KQL
 	let Keywords = dynamic(["helpdesk", " alert", " suspicious", "fake", "malicious", "phishing", "spam", "do not click", "do not open", "hijacked", "Fatal"]);
@@ -150,10 +157,15 @@ In this exercise you will use the Microsoft Sentinel analytics rule wizard to cr
 	| extend RuleDetail = case(OfficeObjectId_s contains '/' , tostring(split(OfficeObjectId_s, '/')[-1]) , tostring(split(OfficeObjectId_s, '\\')[-1]))
 	| summarize count(), StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated) by  Operation_s, UserId__s, ClientIPAddress, ResultStatus_s, Keyword, OriginatingServer_s, OfficeObjectId_s, RuleDetail
 	```
+![Step 61-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/4f88effc-e9f8-4d03-a670-994a891310dc)
 
-10.  We can check how many hits the query finds using the **Test with current data** button on the right side, which helps with Alert modelling and tuning.
+11.  We can check how many hits the query finds using the **Test with current data** button on the right side, which helps with Alert modelling and tuning.
 
-11.   Under **Alert enhancement**, expand the **Entity mapping** section, which allows us to map fields to well-known categories (entity types):
+![Step 62-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/a0c62e37-1a98-45de-aba9-d7aa77d44615)
+
+13.   Under **Alert enhancement**, expand the **Entity mapping** section, which allows us to map fields to well-known categories (entity types):
+
+![Step 63-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/5f6d41e1-52f2-4e1e-bd30-9951f1c8611f)
 
       - Click **Add new entity**, and then pick **Account** as our first type. Fill out the identifiers as follows:
         - In the left-hand selector, pick **FullName** as the type, and set the right-hand column identifier to **UserId__s**
@@ -164,8 +176,8 @@ In this exercise you will use the Microsoft Sentinel analytics rule wizard to cr
         - In the left-hand selector, pick **Address**, and map it to the **ClientIPAddress** value
 	
   - Your mapping should look like the below:
-  
-    ![entity mapping](../Images/m3-entity01.gif?raw=true)
+
+![Step 64-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/c103b56b-cebf-426d-a190-91d134091c63)
 
 #### Add a customized Alert title
 
@@ -173,22 +185,30 @@ Off to a great start! Now, to make your SOC more productive, save analyst time, 
 
 1. To achieve this, we'll use the **Alert details** feature and use a custom Alert Name Format.
 
+![Step 65-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/54bafd3b-11dc-4180-8160-ba67bb64077d)
+
    - As we know the username is available in the UserId_s column, under the **Alert Details** heading, in the **Alert Name Format** section, provide the dynamic title **"Malicious Inbox Rule - {{UserId__s}}"**
 
-2. Under **Query scheduling**, set the **run query every** to **5 minutes** and the **Lookup data to last 12 Hours**. 
+![Step 66 -Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/fee26955-2cae-4042-9bfe-74d9c9b655dd)
+
+3. Under **Query scheduling**, set the **run query every** to **5 minutes** and the **Lookup data to last 12 Hours**. 
    - If you deployed the lab more than 12 hours ago, you will need to change the lookback period in order to cover that period.
    - (This scheduling might not be ideal for production environment and should be tuned appropriately)
 
-3. Leave the other values at defaults.
+![Step 67-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/6127f919-bf5a-48be-8d55-840d03f42192)
 
-4. Click the **Incident settings** button or the tab at the top.
+4. Leave the other values at defaults.
 
-5. As your SOC is under stress, we want to *reduce the number of alerts* and be sure that when analyst handle a specific incident, he/she will see all related events or other incidents related to the same attack story. For that we will implement the **Alert grouping** feature. To do so, follow the steps below: 
+5. Click the **Incident settings** button or the tab at the top.
+
+6. As your SOC is under stress, we want to *reduce the number of alerts* and be sure that when analyst handle a specific incident, he/she will see all related events or other incidents related to the same attack story. For that we will implement the **Alert grouping** feature. To do so, follow the steps below: 
 
 - On the **Incident settings** tab under **Alert grouping**: 
   - Set *Group related alerts into incidents* to **Enabled**.
   - Set *Limit the group to alerts created within the selected time frame* to **12 hours**.
   - Set the *Group alerts triggered by*... setting to *Grouping alerts into a single incident if the selected entity types and details matches*, then pick only the Account.
+
+![Step 68-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/b9bf487e-669c-48ab-aa35-92ffd473e86f)
 
 6. Skip to **Review and create** and **Save** your new Analytics rule.
 
@@ -196,7 +216,70 @@ The next time the rule is scheduled - *as long as the training data was onboarde
 
 **Tip:** You should already be able to see the sample Incident with a similar outcome from the rule installed when the Training Lab content was onboarded (if it was onboarded recently).
  	
+![Step 69-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/5b3402d7-6cec-4872-9921-66c2003b0297)
 
+## Review resulting security incident
 
+Now we've created a custom Analytics rule to detect malicious inbox rule creation, let's quickly review an Incident produced by a similar Analytics rule which was installed and run when this training lab content was onboarded. 
 
+**Note:** The next module provides more detail on incident investigation.
+
+#### Find the Incident
+
+1. From your Microsoft Sentinel instance, select **Incidents** and review the incident page.
+   
+2. Find the incident with the title **"Malicious Inbox Rule, affected user AdeleV@contoso.OnMicrosoft.com"** or similar - notice that the title adapted to the user affected by the detection.
+
+3. In the right pane we can review the incident preview, this view will gave us high level overview on the incident and the entity that related to it.
+
+	There's a lot of information in this quick view panel!
+	
+	- At the top: Title, ID, assignment to a user, status (New/Active/Closed) and Severity
+	- The Description provided by the rule (providing good descriptions helps analyst understand detections)
+	- Any Alert products involved (here, just Sentinel)
+	- A count and quick links to Events, Alerts and any Bookmarks added to the incident
+	- Incident update and creation times
+	- Quick links to entity pages for Accounts (here Adele's account - but also potentially Hosts, IPs, and more)
+	- Tactics noted by the rule definition
+	- A link to the Incident Overview workbook, which provides a live report on the Incident state
+	- A direct link to edit the rule producing the detection, in case you need to edit the rule/detection logic quickly
+	- Quick tagging and tag display
+	- A direct link to the incident
+	- The most recent comment, if present
+
+![Step 70-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/ffed29dc-a77f-4704-a760-5ebfe15948f8)
+
+So you can you can see a snapshot of the most critical information and perform basic incident management directly from the summary panel.
+
+4. Click **View full details** at the bottom
+
+![Step 71-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/c7241145-bf0b-4518-9027-2feaecf46023)
+
+5. On the full **Incident page** (Preview), you can find:
+   - The same quick panel (now on the left)
+   - The **Incident Actions** button at the top right
+   - The **Overview tab** which includes:
+     - An **Incident timeline panel**, which shows any Alerts and Bookmarks associated with that incident in a timeline view
+     - An **Entities panel** allowing a quick pivot to an entity on the Entities tab
+   - The **Entities tab** allowing exploration of Entity insights and timelines directly
+   - A list of **Similar incidents** at the bottom of the page for added context, if available
+   - A set of **Incident insights** in the right-hand panel, if available
+  
+  
+6. After looking over the Incident, click the **Entities** tab to list all the mapped entities related to this incident.
+
+![Step 72-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/e1a2c595-f9e2-4028-9089-d1c764308e43)
+
+8. Click the entity **"AdeleV@contoso.OnMicrosoft.com"** from the incident Entities list
+   - This action will navigate to the **Entities tab**, a list of entities with 3 sub-tabs on the right.
+   - Clicking each tab will show different information about the Entity and its state
+     - Note: State information is pulled from various sources: Some may be pulled directly from Azure services (like Microsoft Entra ID or Azure Virtual Machine host information), some from onboarded data sources, and some from UEBA (if enabled). Note that for *AdeleV*, our fake user, there's no information available in your user directory, but for production environments much more information is typically available!
+    
+![Step 73-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/1f3f0027-bd31-437b-aefa-6fdd262232bc)
+
+![Step 74-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/ac255e01-2b8d-49f9-b7c5-63f3670f5c19)
+   
+- Clicking the **View Full Details** button at the bottom will take you to the full Entity page
+
+![Step 75-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/3700b9f5-dac8-4cfc-927e-7a68b78709c6)
 
