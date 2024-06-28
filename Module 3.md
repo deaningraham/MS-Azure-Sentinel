@@ -283,3 +283,8 @@ So you can you can see a snapshot of the most critical information and perform b
 
 ![Step 75-Create Sentinel Lab](https://github.com/deaningraham/MS-Azure-Sentinel/assets/173529885/3700b9f5-dac8-4cfc-927e-7a68b78709c6)
 
+## Further reading
+- Create incidents from Microsoft security alerts: https://learn.microsoft.com/en-us/azure/sentinel/create-incidents-from-alerts
+- Create query rules: https://learn.microsoft.com/en-us/azure/sentinel/detect-threats-custom
+- Map data fields to entities: https://learn.microsoft.com/en-us/azure/sentinel/map-data-fields-to-entities
+- Investigate incidents: https://learn.microsoft.com/en-us/azure/sentinel/investigate-incidents
