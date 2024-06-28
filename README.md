@@ -7,7 +7,9 @@ The Purpose of the ***"Microsoft Sentinel Training Lab Solution"*** and by exten
 
 From the [overview page](https://portal.azure.com/#create/azuresentinel.azure-sentinel-solution-azuretraininglab) it says "This solution ingests pre-recorded data into your Microsoft Sentinel workspace and enables several artifacts to simulate scenarios that showcase various Microsoft Sentinel features." In short, this lab will provide cybersecurity analysts with hands on experience with both Sentinel and certian aspects of Azure.
 
-The primary focus was to ingest and analyze logs within a Security Information and Event Management (SIEM) system, generating test telemetry to mimic real-world attack scenarios. This hands-on experience was designed to deepen understanding of network security, attack patterns, and defensive strategies.
+Although this Lab closely follows Microsoft's Training Modules, it is entirely my own work and I have peformed every step. I have also added and expanded certain sections to enhance my personal training and hands-on experience. Additionally, I have updated areas that have changed since the original lab modules were created, and I've included supplementary information for educational purposes.
+
+The main objective was to ingest and analyze logs using a Security Information and Event Management (SIEM) system, creating test telemetry to simulate real-world attack scenarios. This practical exercise aimed to enhance comprehension of network security, attack methodologies, and defensive tactics.
 
 ### Skills Learned
 
