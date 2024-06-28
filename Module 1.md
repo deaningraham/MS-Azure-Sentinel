@@ -1,4 +1,4 @@
-### 1. Create Free Trial Account With MS Azure
+### 1. Create Free Trial Account With MS Azure 
 
 https://azure.microsoft.com/en-us/free/
 
