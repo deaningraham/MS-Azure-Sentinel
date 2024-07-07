@@ -7,7 +7,7 @@ The Purpose of the ***"Microsoft Sentinel Training Lab Solution"*** and by exten
 
 From the [overview page](https://portal.azure.com/#create/azuresentinel.azure-sentinel-solution-azuretraininglab) it says "This solution ingests pre-recorded data into your Microsoft Sentinel workspace and enables several artifacts to simulate scenarios that showcase various Microsoft Sentinel features." In short, this lab will provide cybersecurity analysts with hands on experience with both Sentinel and certian aspects of Azure.
 
-Although this Lab closely follows Microsoft's Training Guide, it is entirely my own work and I have peformed every step. I have also added and expanded certain sections to enhance my personal training and hands-on experience. Additionally, I have updated areas that have changed since the original lab modules were created, and I've included supplementary information for educational purposes. Lastly, some sections, like the labs, were transferred from the original modules, but the work peformed is my own, supported by the screenshots provided.
+Although this Lab closely follows Microsoft's Training Guide, it is entirely my own work and I have peformed every step. I have also added and expanded certain sections to enhance my personal training and hands-on experience. Additionally, I have updated areas that have changed since the original lab modules were created, and I've included supplementary information for educational purposes. There were also a few sections of the training modules that were broken and in those cases, I had to find fixes or work arounds. Finally, some sections, like the labs, were transferred from the original modules, but the work peformed is my own, supported by the screenshots provided.
 
 The main objective was to ingest and analyze logs using a Security Information and Event Management (SIEM) system, creating test telemetry to simulate real-world attack scenarios. This practical exercise aimed to enhance comprehension of network security, attack methodologies, and defensive tactics.
 
@@ -18,6 +18,7 @@ The main objective was to ingest and analyze logs using a Security Information a
 - Ability to generate and recognize attack signatures and patterns.
 - Enhanced knowledge of network protocols and security vulnerabilities.
 - Development of critical thinking and problem-solving skills in cybersecurity.
+- Azure and Sentinel troubleshooting.
 
 ### Tools Used
 
